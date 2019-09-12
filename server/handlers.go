@@ -52,7 +52,7 @@ func (server *Server) generateHandleWS(ctx context.Context, cancel context.Cance
                 ip:=strings.Split( r.RemoteAddr,":")[0]
                 
                 if ok,_:=Contain(ip,ips);!ok {
-                   fmt.Println(ip)
+                   fmt.Println( fmt.Sprintf( "(error) ip:%s not permit,please set white_ips",ip))
 		   return
                 }
 		if server.options.Once {
