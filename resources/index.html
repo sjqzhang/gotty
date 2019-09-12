@@ -2,15 +2,54 @@
 <html>
   <head>
     <title>{{ .title }}</title>
+    <!--
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/xterm.css" />
     <link rel="stylesheet" href="./css/xterm_customize.css" />
+    -->
   </head>
   <body>
     <div id="terminal"></div>
+    <!--
     <script src="./auth_token.js"></script>
     <script src="./config.js"></script>
     <script src="./js/gotty-bundle.js"></script>
+    -->   
+ <script>
+
+    function dynamicLoadingCss(path){
+        if(!path || path.length === 0){
+            return false;
+        }
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.href = path+'?param='+encodeURIComponent(window.location.href);
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        head.appendChild(link);
+    }
+
+    function dynamicLoadingScript(path,callback){
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.src = path+'?param='+encodeURIComponent(window.location.href);;
+        script.type = 'text/javascript';
+        if (typeof callback === "function") {
+            script.onload= function(){
+                callback();
+            }
+        }
+        head.appendChild(script);
+    }
+
+     dynamicLoadingCss("./css/index.css");
+     dynamicLoadingCss("./css/xterm.css");
+     dynamicLoadingCss("./css/xterm_customize.css");
+     dynamicLoadingScript("./auth_token.js","");
+     dynamicLoadingScript("./config.js","");
+     dynamicLoadingScript("./js/gotty-bundle.js","");
+
+   </script>
   </body>
 </html>

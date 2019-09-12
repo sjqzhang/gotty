@@ -31,6 +31,7 @@ type Options struct {
 	WSOrigin            string           `hcl:"ws_origin" flagName:"ws-origin" flagDescribe:"A regular expression that matches origin URLs to be accepted by WebSocket. No cross origin requests are acceptable by default" default:""`
 	Term                string           `hcl:"term" flagName:"term" flagDescribe:"Terminal name to use on the browser, one of xterm or hterm." default:"xterm"`
 	WhiteIps                string           `hcl:"white_ips" flagName:"white_ips" flagDescribe:"white ips" default:""`
+	PathPrefix                string           `hcl:"" flagName:"path" flagDescribe:"path prefix" default:""`
 
 	TitleVariables map[string]interface{}
 }
