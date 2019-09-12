@@ -46,9 +46,14 @@
      dynamicLoadingCss("./css/index.css");
      dynamicLoadingCss("./css/xterm.css");
      dynamicLoadingCss("./css/xterm_customize.css");
-     dynamicLoadingScript("./auth_token.js","");
-     dynamicLoadingScript("./config.js","");
-     dynamicLoadingScript("./js/gotty-bundle.js","");
+     dynamicLoadingScript("./auth_token.js",function(){
+
+      dynamicLoadingScript("./config.js",function(){
+
+       dynamicLoadingScript("./js/gotty-bundle.js","");
+     });
+
+     });
 
    </script>
   </body>
