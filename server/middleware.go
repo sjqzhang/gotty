@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/base64"
 	"log"
+        "fmt"
 	"net/http"
 	"strings"
 )
@@ -17,6 +18,15 @@ func (server *Server) wrapLogger(handler http.Handler) http.Handler {
 
 func (server *Server) wrapHeaders(handler http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+                ips:=strings.Split(server.options.WhiteIps,",")
+                ip:=strings.Split( r.RemoteAddr,":")[0]
+                
+                if ok,_:=Contain(ip,ips);!ok {
+                   fmt.Println( fmt.Sprintf( "(error) ip:%s not permit,please set white_ips",ip))
+                   w.WriteHeader(403)
+                   w.Write([]byte( fmt.Sprintf( "ip:%s not permit",ip)))
+		   return
+                }
 		// todo add version
 		w.Header().Set("Server", "GoTTY")
 		handler.ServeHTTP(w, r)
