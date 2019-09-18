@@ -48,12 +48,14 @@ func (server *Server) generateHandleWS(ctx context.Context, cancel context.Cance
 	}()
 
 	return func(w http.ResponseWriter, r *http.Request) {
-                ips:=strings.Split(server.options.WhiteIps,",")
-                ip:=strings.Split( r.RemoteAddr,":")[0]
-                
-                if ok,_:=Contain(ip,ips);!ok {
-                   fmt.Println( fmt.Sprintf( "(error) ip:%s not permit,please set white_ips",ip))
-		   return
+                if server.options.WhiteIps!="*" {
+                    ips:=strings.Split(server.options.WhiteIps,",")
+                    ip:=strings.Split( r.RemoteAddr,":")[0]
+                    
+                    if ok,_:=Contain(ip,ips);!ok {
+                       fmt.Println( fmt.Sprintf( "(error) ip:%s not permit,please set white_ips",ip))
+		       return
+                    }
                 }
 		if server.options.Once {
 			success := atomic.CompareAndSwapInt64(once, 0, 1)
@@ -62,6 +64,7 @@ func (server *Server) generateHandleWS(ctx context.Context, cancel context.Cance
 				return
 			}
 		}
+
 
 		num := counter.add(1)
 		closeReason := "unknown reason"
